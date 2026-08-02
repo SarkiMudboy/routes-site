@@ -36,8 +36,15 @@ export function Faq() {
         <h2 className="text-2xl mb-6">Short FAQ</h2>
         <Item q="Why prepay?">
           Prepayment is what lets us guarantee your seat and depart on time. If
-          you cancel by 9pm the night before, you get every naira back by
-          transfer.
+          you cancel in time — by 9 PM the night before for morning seats, by 3
+          PM same day for evening seats — you get every naira back by transfer.
+        </Item>
+        <Item q="How do I book my ride home?">
+          Book it together with your morning seat — just say "both ways" when you
+          message us — or book any time before 4:30 PM for the 5:30 and 6:10
+          departures from Berger, Wuse and NICON. Same price, same rules, full
+          refund if you cancel by 3 PM. After 4:30 PM we'll put you on standby
+          and confirm by 5:00 if a seat opens.
         </Item>
         <Item q="What if the driver doesn't show?">
           Full refund plus your next ride free, and we put you on the next

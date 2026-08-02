@@ -22,9 +22,9 @@ function StopRing({ destination = false }: { destination?: boolean }) {
 
 const steps = [
   "Join the WhatsApp group and send your name and preferred departure.",
-  "Book tonight by bank transfer — your seat is numbered and held.",
+  "Book by bank transfer — your seat is numbered and held. Morning seats close 9 PM the night before; evening seats close one hour before departure.",
   "Be at your stop 5 minutes early. Your driver, car and plate number are sent to you the night before.",
-  "Ride with four passengers maximum. Cancel by 9pm the night before for a full refund, no questions.",
+  "Ride with four passengers maximum. Full refund if you cancel — by 9 PM the night before for morning seats, by 3 PM same day for evening seats.",
 ];
 
 export function HowItWorks() {

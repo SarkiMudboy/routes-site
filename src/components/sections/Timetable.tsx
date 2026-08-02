@@ -45,6 +45,10 @@ export function Timetable() {
           </Row>
         </div>
 
+        <p className="text-sm text-ink/80 mt-4">
+          Evening seats can be booked with your morning seat, or same-day until
+          one hour before departure.
+        </p>
         <p className="text-sm text-ink/80 mt-4">Weekdays only during the pilot.</p>
       </div>
     </section>

@@ -101,7 +101,7 @@ function Hero() {
 
           <p className="text-sm text-muted-foreground text-center md:text-left max-w-2xl">
             Founding rider price ₦1,400 (₦1,800 after the first 30 riders) ·
-            Limited to 50 riders
+            Limited to 50 riders · Book one way or both ways
           </p>
         </div>
       </div>
