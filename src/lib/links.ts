@@ -1,6 +1,7 @@
 // Read from Vite env vars (prefixed VITE_, inlined at build time).
 // Falls back to a visible placeholder token if the var is unset, so an
 // unconfigured build still renders and the missing value is obvious.
+// This is useful for development and debugging.
 export const WHATSAPP_GROUP_INVITE_LINK =
   import.meta.env.VITE_WHATSAPP_GROUP_INVITE_LINK ??
   "{{WHATSAPP_GROUP_INVITE_LINK}}";
