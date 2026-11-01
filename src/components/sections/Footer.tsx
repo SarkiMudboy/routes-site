@@ -7,6 +7,7 @@ import {
   SUPPORT_PHONE_NUMBER,
   WHATSAPP_GROUP_INVITE_LINK,
   driverTel,
+  formatPhone,
   supportWa,
 } from "@/lib/links";
 
@@ -44,7 +45,7 @@ export function Footer() {
             <IconLink href={WHATSAPP_GROUP_INVITE_LINK} label="Join the WhatsApp group to book">
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
             </IconLink>
-            <IconLink href={supportWa} label={`WhatsApp support: ${SUPPORT_PHONE_NUMBER}`}>
+            <IconLink href={supportWa} label={`Contact us on WhatsApp: ${formatPhone(SUPPORT_PHONE_NUMBER)}`}>
               <Phone className="h-5 w-5" aria-hidden="true" />
             </IconLink>
           </div>
@@ -71,15 +72,21 @@ export function Footer() {
                 ))}
               </ul>
             </nav>
-            <ul className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3 text-sm">
               <li>
-                <a href={supportWa} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
-                  WhatsApp us: {SUPPORT_PHONE_NUMBER}
+                <a href={supportWa} className="group inline-flex min-h-11 items-center gap-2">
+                  <span className="text-slate">Contact us</span>{" "}
+                  <span className="font-semibold tabular-nums text-ink group-hover:underline">
+                    {formatPhone(SUPPORT_PHONE_NUMBER)}
+                  </span>
                 </a>
               </li>
               <li>
-                <a href={driverTel} className="inline-flex min-h-11 items-center hover:text-ink hover:underline">
-                  Drivers: {DRIVER_PHONE_NUMBER}
+                <a href={driverTel} className="group inline-flex min-h-11 items-center gap-2">
+                  <span className="text-slate">Driver? Call to join</span>{" "}
+                  <span className="font-semibold tabular-nums text-ink group-hover:underline">
+                    {formatPhone(DRIVER_PHONE_NUMBER)}
+                  </span>
                 </a>
               </li>
             </ul>

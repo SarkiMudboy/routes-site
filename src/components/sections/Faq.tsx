@@ -1,5 +1,5 @@
 import { Section } from "@/components/layout";
-import { DRIVER_PHONE_NUMBER, driverTel } from "@/lib/links";
+import { DRIVER_PHONE_NUMBER, driverTel, formatPhone } from "@/lib/links";
 
 function Item({ q, children }: { q: string; children: React.ReactNode }) {
   return (
@@ -42,7 +42,7 @@ export function Faq() {
           We onboard a small number of vetted drivers. Call{" "}
           {/* py-3 on an inline link enlarges the tap area to ≥44px without changing the line height */}
           <a href={driverTel} className="py-3 font-semibold text-slate underline underline-offset-4">
-            {DRIVER_PHONE_NUMBER}
+            {formatPhone(DRIVER_PHONE_NUMBER)}
           </a>{" "}
           — driver places are not through the passenger group.
         </Item>
