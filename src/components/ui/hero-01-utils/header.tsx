@@ -62,7 +62,7 @@ export default function Header({ navigationData }: { navigationData: NavigationS
               </Button>
             </SheetTrigger>
             <SheetContent side="right" aria-describedby={undefined} className="flex flex-col gap-8">
-              <SheetHeader>
+              <SheetHeader className="text-left">
                 <SheetTitle className="font-heading text-ink">Menu</SheetTitle>
               </SheetHeader>
               <nav aria-label="Sections">
@@ -82,9 +82,10 @@ export default function Header({ navigationData }: { navigationData: NavigationS
                   ))}
                 </ul>
               </nav>
-              <Button asChild size="lg" className="gap-2">
+              {/* size default (px-4) + wrapping: the panel is narrow on small phones */}
+              <Button asChild className="min-h-12 gap-2 whitespace-normal text-center">
                 <a href={WHATSAPP_GROUP_INVITE_LINK}>
-                  Join the WhatsApp group to book
+                  Book on WhatsApp
                   <MoveRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                 </a>
               </Button>

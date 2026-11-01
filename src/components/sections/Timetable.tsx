@@ -68,8 +68,13 @@ export function Timetable() {
           <TableCaption className="sr-only">Weekday departures, pick-up and drop-off, and when booking closes</TableCaption>
           <TableHeader className="bg-wash">
             <TableRow>
-              <TableHead className="w-32">Departs</TableHead>
-              <TableHead>Route</TableHead>
+              {/* Under 640px the time folds into the route cell, so the route
+                  and badges get the full card width instead of being clipped. */}
+              <TableHead className="hidden w-32 sm:table-cell">Departs</TableHead>
+              <TableHead>
+                <span className="sm:hidden">Departure</span>
+                <span className="hidden sm:inline">Route</span>
+              </TableHead>
               <TableHead className="hidden md:table-cell">Period</TableHead>
               <TableHead className="hidden md:table-cell">Seats close</TableHead>
             </TableRow>
@@ -77,13 +82,16 @@ export function Timetable() {
           <TableBody>
             {departures.map((d) => (
               <TableRow key={d.time}>
-                <TableCell className="align-top md:align-middle">
+                <TableCell className="hidden align-top sm:table-cell md:align-middle">
                   <span className="whitespace-nowrap font-heading text-2xl font-bold tabular-nums text-ink">
                     {d.time}
                   </span>
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-2">
+                    <span className="whitespace-nowrap font-heading text-2xl font-bold tabular-nums text-ink sm:hidden">
+                      {d.time}
+                    </span>
                     <p className="flex flex-wrap items-center gap-2 text-base text-ink">
                       <span className="font-semibold">{d.from}</span>
                       <Connector />

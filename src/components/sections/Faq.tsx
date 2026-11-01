@@ -40,7 +40,8 @@ export function Faq() {
         </Item>
         <Item q="I drive this route. Can I join?">
           We onboard a small number of vetted drivers. Call{" "}
-          <a href={driverTel} className="font-semibold text-slate underline underline-offset-4">
+          {/* py-3 on an inline link enlarges the tap area to ≥44px without changing the line height */}
+          <a href={driverTel} className="py-3 font-semibold text-slate underline underline-offset-4">
             {DRIVER_PHONE_NUMBER}
           </a>{" "}
           — driver places are not through the passenger group.

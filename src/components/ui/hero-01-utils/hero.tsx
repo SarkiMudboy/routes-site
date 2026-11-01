@@ -59,7 +59,7 @@ export default function HeroSection({ avatarList }: { avatarList: AvatarList[] }
             rotating pill) is hidden from it so it isn't re-announced. */}
         <h1
           id="hero-title"
-          className="text-[2.75rem] leading-tight tracking-tighter sm:text-6xl lg:text-8xl"
+          className="text-[clamp(2.25rem,11vw,2.75rem)] leading-tight tracking-tighter sm:text-6xl lg:text-8xl"
         >
           <span className="sr-only">Four seats, never six. On time, prepaid, AC on, ₦1,400.</span>
           <span aria-hidden="true" className="flex flex-col items-center gap-2">
@@ -89,14 +89,14 @@ export default function HeroSection({ avatarList }: { avatarList: AvatarList[] }
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <a
             href={WHATSAPP_GROUP_INVITE_LINK}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate px-8 font-heading font-semibold text-white transition-colors hover:bg-ink"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate px-6 font-heading sm:px-8 font-semibold text-white transition-colors hover:bg-ink"
           >
             Join the WhatsApp group
             <MoveRight className="h-4 w-4 shrink-0" aria-hidden="true" />
           </a>
           <a
             href="#timetable"
-            className="inline-flex min-h-12 items-center justify-center rounded-full border border-rule px-8 text-ink transition-colors hover:border-ink"
+            className="inline-flex min-h-12 items-center justify-center rounded-full border border-rule px-6 text-ink sm:px-8 transition-colors hover:border-ink"
           >
             See the timetable
           </a>

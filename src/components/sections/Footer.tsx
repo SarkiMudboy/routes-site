@@ -60,10 +60,11 @@ export function Footer() {
 
           <div className="flex flex-col gap-3 md:items-end">
             <nav aria-label="Footer">
-              <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              {/* 2×2 grid on phones (no orphaned last link), one row from sm */}
+              <ul className="grid grid-cols-2 gap-x-6 gap-y-3 sm:flex sm:flex-wrap">
                 {sections.map((s) => (
                   <li key={s.href}>
-                    <a href={s.href} className="inline-flex min-h-11 items-center text-ink hover:underline">
+                    <a href={s.href} className="inline-flex min-h-11 min-w-11 items-center text-ink hover:underline">
                       {s.title}
                     </a>
                   </li>

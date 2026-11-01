@@ -41,29 +41,32 @@ function Ticket({ fare }: { fare: Fare }) {
   // (13.2:1 on mint) with slate labels (5.6:1 on mint, 7.9:1 on white).
   const label = "text-xs font-bold uppercase tracking-wider text-slate";
   return (
+    // On tablets (2 columns) the founding ticket spans the full row; 3 across from lg.
     <li
       className={cn(
         "relative flex flex-col overflow-hidden rounded-xl border text-ink",
-        founding ? "border-sea bg-sea" : "border-rule bg-white",
+        founding ? "border-sea bg-sea md:col-span-2 lg:col-span-1" : "border-rule bg-white",
       )}
     >
-      {founding && (
-        <span
-          aria-hidden="true"
-          className="absolute right-4 top-4 -rotate-12 rounded-md border-2 border-ink px-2 font-heading text-xs font-bold uppercase tracking-wider text-ink"
-        >
-          First 30
-        </span>
-      )}
-
       {/* fare half */}
       <div className="flex flex-col gap-4 p-6">
-        <p className={label}>Kubwa ⇄ City · Weekdays</p>
+        {/* stamp sits in the label row (not absolutely positioned) so it can never overlap the text */}
+        <div className="flex items-start justify-between gap-4">
+          <p className={label}>Kubwa ⇄ City · Weekdays</p>
+          {founding && (
+            <span
+              aria-hidden="true"
+              className="shrink-0 -rotate-12 whitespace-nowrap rounded-md border-2 border-ink px-2 font-heading text-xs font-bold uppercase tracking-wider text-ink"
+            >
+              First 30
+            </span>
+          )}
+        </div>
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-semibold text-inherit">{fare.label}</h3>
-          <p className="flex items-baseline gap-2">
+          <p className="flex flex-wrap items-baseline gap-x-2">
             <span className="font-heading text-5xl font-bold leading-none tabular-nums">{fare.price}</span>
-            <span className="text-sm">per seat</span>
+            <span className="whitespace-nowrap text-sm">per seat</span>
           </p>
         </div>
       </div>
@@ -100,7 +103,7 @@ export function PriceBlock() {
   return (
     <Section id="price" title="Price" intro="Founding rider price — first 30 riders only." tone="wash">
       <div className="flex flex-col gap-6">
-        <ul className="grid gap-6 md:grid-cols-3">
+        <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {fares.map((f) => (
             <Ticket key={f.label} fare={f} />
           ))}
