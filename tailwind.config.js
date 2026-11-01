@@ -1,3 +1,5 @@
+import animate from "tailwindcss-animate";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -48,8 +50,8 @@ export default {
         },
       },
       fontFamily: {
+        // Body: system stack. Poppins is only self-hosted at 600/700 (headings).
         sans: [
-          "Poppins",
           "Segoe UI",
           "Roboto",
           "system-ui",
@@ -66,6 +68,15 @@ export default {
           "sans-serif",
         ],
       },
+      keyframes: {
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 40s linear infinite",
+      },
       borderRadius: {
         lg: "8px",
         md: "8px",
@@ -73,5 +84,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [animate],
 };

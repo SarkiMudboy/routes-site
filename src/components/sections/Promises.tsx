@@ -1,3 +1,5 @@
+import { Section } from "@/components/layout";
+
 const promises = [
   "Four passengers maximum — the front seat is one person's seat",
   "Departs on schedule, full or not",
@@ -9,21 +11,15 @@ const promises = [
 
 export function Promises() {
   return (
-    <section className="border-t border-rule">
-      <div className="max-w-[720px] mx-auto px-7 py-16 md:py-24">
-        <h2 className="text-2xl mb-6">The promises</h2>
-        <ul className="list-none m-0 p-0 grid grid-cols-1 sm:grid-cols-2 sm:gap-x-8">
-          {promises.map((text) => (
-            <li
-              key={text}
-              className="relative py-3.5 pl-5 border-b border-rule text-base font-semibold"
-            >
-              <span className="absolute left-0 top-[1.35rem] w-2 h-2 rounded-full border-2 border-teal bg-white" />
-              {text}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <Section id="promises" title="The promises">
+      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {promises.map((text) => (
+          <li key={text} className="flex items-start gap-4 border-t border-rule pt-6">
+            <span aria-hidden="true" className="relative top-2 h-2 w-2 shrink-0 bg-teal" />
+            <span className="font-semibold leading-relaxed text-ink">{text}</span>
+          </li>
+        ))}
+      </ul>
+    </Section>
   );
 }

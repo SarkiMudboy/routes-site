@@ -30,7 +30,7 @@
     overflow-x: hidden;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans leading-relaxed antialiased;
   }
   h1,
   h2,
