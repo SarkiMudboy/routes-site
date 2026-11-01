@@ -14,40 +14,43 @@ export default {
     },
     extend: {
       colors: {
-        // Brand palette — the only four hues on the site.
-        // Greens are fills only (too light for text on white); text on a
-        // green fill is always ink.
-        ink: "#202734", //   text, primary buttons, footer, logo tile
-        slate: "#36415A", // secondary text, labels, hover/focus
-        leaf: "#B7D894", //  highlights: founding fare, step numbers, bullets, CTA on dark
-        wash: "#E0F8C7", //  alternating section background, hover fills
+        // Brand palette (colorhunt 091413 / 285A48 / 408A71 / B0E4CC).
+        // Contrast: ink on white 18.7:1; white on slate 7.9:1; ink on sea 13.2:1.
+        // leaf (#408A71) is only 4.1:1 with white, so it never carries text —
+        // icons and decoration only (3:1 is enough for those).
+        // wash is a lighter tint of the mint, the one derived (not new) colour.
+        ink: "#091413", //   all text & headings, logo tile, seat circles, dark promises column
+        slate: "#285A48", // buttons (white text), secondary text, labels, focus
+        sea: "#B0E4CC", //   highlight fill with INK text (founding ticket) — never white text
+        leaf: "#408A71", //  decoration & icons: checks, dots, icon-button hover
+        wash: "#E3F5ED", //  alternating section background (mint at 35%)
         white: "#FFFFFF",
-        rule: "#36415A33", // hairlines: slate at 20%, no extra hue
+        rule: "#285A4833", // hairlines: dark green at 20%, no extra hue
 
         // shadcn semantic aliases mapped onto the brand palette
-        border: "#36415A33",
-        input: "#36415A33",
-        ring: "#36415A",
+        border: "#285A4833",
+        input: "#285A4833",
+        ring: "#285A48",
         background: "#FFFFFF",
-        foreground: "#202734",
+        foreground: "#091413",
         primary: {
-          DEFAULT: "#202734",
+          DEFAULT: "#285A48",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#E0F8C7",
-          foreground: "#202734",
+          DEFAULT: "#E3F5ED",
+          foreground: "#091413",
         },
         muted: {
-          DEFAULT: "#E0F8C7",
-          foreground: "#36415A",
+          DEFAULT: "#E3F5ED",
+          foreground: "#285A48",
         },
         accent: {
-          DEFAULT: "#E0F8C7",
-          foreground: "#202734",
+          DEFAULT: "#E3F5ED",
+          foreground: "#091413",
         },
         destructive: {
-          DEFAULT: "#36415A",
+          DEFAULT: "#285A48",
           foreground: "#FFFFFF",
         },
       },

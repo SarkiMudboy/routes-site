@@ -89,7 +89,7 @@ export default function HeroSection({ avatarList }: { avatarList: AvatarList[] }
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <a
             href={WHATSAPP_GROUP_INVITE_LINK}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 font-heading font-semibold text-white transition-colors hover:bg-slate"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate px-8 font-heading font-semibold text-white transition-colors hover:bg-ink"
           >
             Join the WhatsApp group
             <MoveRight className="h-4 w-4 shrink-0" aria-hidden="true" />

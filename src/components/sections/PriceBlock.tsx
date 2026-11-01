@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 /**
  * Fares as ride tickets: a fare half, a perforated tear line with notches,
  * and a stub with the seat and when the fare applies. The founding fare is
- * the one green (leaf) ticket, with a "first 30" stamp.
+ * the one filled (sea) ticket, with a "first 30" stamp.
  */
 
 type Fare = {
@@ -37,11 +37,14 @@ function Notch({ side, founding }: { side: "left" | "right"; founding?: boolean 
 
 function Ticket({ fare }: { fare: Fare }) {
   const { founding } = fare;
+  // Founding ticket is the filled (sea, mint) one; every ticket uses ink text
+  // (13.2:1 on mint) with slate labels (5.6:1 on mint, 7.9:1 on white).
+  const label = "text-xs font-bold uppercase tracking-wider text-slate";
   return (
     <li
       className={cn(
-        "relative flex flex-col overflow-hidden rounded-xl border",
-        founding ? "border-leaf bg-leaf" : "border-rule bg-white",
+        "relative flex flex-col overflow-hidden rounded-xl border text-ink",
+        founding ? "border-sea bg-sea" : "border-rule bg-white",
       )}
     >
       {founding && (
@@ -55,12 +58,12 @@ function Ticket({ fare }: { fare: Fare }) {
 
       {/* fare half */}
       <div className="flex flex-col gap-4 p-6">
-        <p className="text-xs font-bold uppercase tracking-wider text-slate">Kubwa ⇄ City · Weekdays</p>
+        <p className={label}>Kubwa ⇄ City · Weekdays</p>
         <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold text-ink">{fare.label}</h3>
+          <h3 className="text-lg font-semibold text-inherit">{fare.label}</h3>
           <p className="flex items-baseline gap-2">
-            <span className="font-heading text-5xl font-bold leading-none tabular-nums text-ink">{fare.price}</span>
-            <span className="text-sm text-ink">per seat</span>
+            <span className="font-heading text-5xl font-bold leading-none tabular-nums">{fare.price}</span>
+            <span className="text-sm">per seat</span>
           </p>
         </div>
       </div>
@@ -81,12 +84,12 @@ function Ticket({ fare }: { fare: Fare }) {
       {/* stub */}
       <dl className="grid grid-cols-2 gap-4 p-6 pt-2 text-sm">
         <div className="flex flex-col gap-2">
-          <dt className="text-xs font-bold uppercase tracking-wider text-slate">Seat</dt>
-          <dd className="font-semibold text-ink">{fare.seat}</dd>
+          <dt className={label}>Seat</dt>
+          <dd className="font-semibold">{fare.seat}</dd>
         </div>
         <div className="flex flex-col gap-2">
-          <dt className="text-xs font-bold uppercase tracking-wider text-slate">Valid</dt>
-          <dd className="font-semibold text-ink">{fare.valid}</dd>
+          <dt className={label}>Valid</dt>
+          <dd className="font-semibold">{fare.valid}</dd>
         </div>
       </dl>
     </li>

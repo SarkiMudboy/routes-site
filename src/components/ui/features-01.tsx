@@ -29,7 +29,7 @@ function FeatureIcon({ icon: Icon }: { icon: Feature["icon"] }) {
   }
   return (
     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-leaf">
-      <Icon className="size-5 text-ink" aria-hidden="true" />
+      <Icon className="size-5 text-white" aria-hidden="true" />
     </span>
   );
 }

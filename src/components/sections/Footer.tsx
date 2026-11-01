@@ -24,7 +24,7 @@ function IconLink({ href, label, children }: { href: string; label: string; chil
       href={href}
       aria-label={label}
       title={label}
-      className="flex h-12 w-12 items-center justify-center rounded-full bg-wash text-ink transition-colors hover:bg-leaf"
+      className="flex h-12 w-12 items-center justify-center rounded-full bg-wash text-ink transition-colors hover:bg-leaf hover:text-white"
     >
       {children}
     </a>

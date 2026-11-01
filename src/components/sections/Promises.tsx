@@ -22,7 +22,7 @@ export function Promises() {
         {/* column headings (on small screens each cell is labelled instead) */}
         <div aria-hidden="true" className="hidden md:grid md:grid-cols-2">
           <p className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate">At the junction</p>
-          <p className="bg-ink px-6 py-4 text-xs font-bold uppercase tracking-wider text-leaf">With routes</p>
+          <p className="bg-ink px-6 py-4 text-xs font-bold uppercase tracking-wider text-white/70">With routes</p>
         </div>
 
         <ul>
@@ -43,12 +43,12 @@ export function Promises() {
               <div className="flex items-start gap-4 border-t border-white/10 bg-ink p-6">
                 <span
                   aria-hidden="true"
-                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-leaf text-ink"
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-leaf text-white"
                 >
                   <Check className="h-4 w-4" />
                 </span>
                 <p className="flex flex-col gap-2 font-semibold leading-relaxed text-white">
-                  <span className="text-xs font-bold uppercase tracking-wider text-leaf md:sr-only">With routes</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-white/70 md:sr-only">With routes</span>
                   {r.promise}
                 </p>
               </div>
