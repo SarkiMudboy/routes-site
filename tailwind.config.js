@@ -14,38 +14,40 @@ export default {
     },
     extend: {
       colors: {
-        // Brand tokens (use these everywhere)
-        teal: "#0E6E6B",
-        ink: "#13262B",
-        terracotta: "#D2622A",
-        wash: "#F2F6F6",
+        // Brand palette — the only four hues on the site.
+        // Greens are fills only (too light for text on white); text on a
+        // green fill is always ink.
+        ink: "#202734", //   text, primary buttons, footer, logo tile
+        slate: "#36415A", // secondary text, labels, hover/focus
+        leaf: "#B7D894", //  highlights: founding fare, step numbers, bullets, CTA on dark
+        wash: "#E0F8C7", //  alternating section background, hover fills
         white: "#FFFFFF",
-        rule: "#D7E1E1",
+        rule: "#36415A33", // hairlines: slate at 20%, no extra hue
 
         // shadcn semantic aliases mapped onto the brand palette
-        border: "#D7E1E1",
-        input: "#D7E1E1",
-        ring: "#D2622A",
+        border: "#36415A33",
+        input: "#36415A33",
+        ring: "#36415A",
         background: "#FFFFFF",
-        foreground: "#13262B",
+        foreground: "#202734",
         primary: {
-          DEFAULT: "#0E6E6B",
+          DEFAULT: "#202734",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#F2F6F6",
-          foreground: "#13262B",
+          DEFAULT: "#E0F8C7",
+          foreground: "#202734",
         },
         muted: {
-          DEFAULT: "#F2F6F6",
-          foreground: "#3F5155",
+          DEFAULT: "#E0F8C7",
+          foreground: "#36415A",
         },
         accent: {
-          DEFAULT: "#F2F6F6",
-          foreground: "#13262B",
+          DEFAULT: "#E0F8C7",
+          foreground: "#202734",
         },
         destructive: {
-          DEFAULT: "#D2622A",
+          DEFAULT: "#36415A",
           foreground: "#FFFFFF",
         },
       },

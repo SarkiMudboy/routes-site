@@ -27,12 +27,15 @@ export function Section({
   title,
   intro,
   tone = "white",
+  align = "start",
   children,
 }: {
   id: string;
   title: string;
   intro?: React.ReactNode;
   tone?: keyof typeof tones;
+  /** "center" centres the heading group only; spacing is unchanged. */
+  align?: "start" | "center";
   children: React.ReactNode;
 }) {
   const heading = (
@@ -44,7 +47,7 @@ export function Section({
     <section id={id} aria-labelledby={`${id}-title`} className={cn("scroll-mt-16 py-16 md:py-24", tones[tone])}>
       {intro ? (
         <Container className="flex flex-col gap-8">
-          <div className="flex flex-col gap-4">
+          <div className={cn("flex flex-col gap-4", align === "center" && "items-center text-center")}>
             {heading}
             <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">{intro}</p>
           </div>
@@ -62,5 +65,5 @@ export function Section({
 
 /** Small uppercase label sitting directly above its value. */
 export function Eyebrow({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <p className={cn("text-xs font-bold uppercase tracking-wider text-teal", className)}>{children}</p>;
+  return <p className={cn("text-xs font-bold uppercase tracking-wider text-slate", className)}>{children}</p>;
 }

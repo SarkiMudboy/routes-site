@@ -1,4 +1,5 @@
 import { ArrowLeft, MoveRight } from "lucide-react";
+import { RotatingWords } from "@/components/ui/rotating-words";
 import { WHATSAPP_GROUP_INVITE_LINK } from "@/lib/links";
 
 /**
@@ -34,7 +35,7 @@ function MarkTile() {
       aria-hidden="true"
       className="inline-flex h-[0.85em] w-[0.85em] shrink-0 items-center justify-center rounded-[0.22em] bg-ink shadow-lg"
     >
-      <svg viewBox="3.5 7.5 41 33" className="h-[0.42em] w-auto text-white">
+      <svg viewBox="2.5 6.5 43 35" className="h-[0.42em] w-auto text-white">
         <path d="M9 35H24V13H39" fill="none" stroke="currentColor" strokeWidth="6" />
         <g fill="currentColor">
           <rect x="3.5" y="29.5" width="11" height="11" />
@@ -47,30 +48,35 @@ function MarkTile() {
   );
 }
 
+// "Four seats, …" — each reads as a complete promise after line one.
+const ROTATING_WORDS = ["never six", "on time", "prepaid", "AC on", "₦1,400"];
+
 export default function HeroSection({ avatarList }: { avatarList: AvatarList[] }) {
   return (
     <div className="flex flex-col items-center gap-8 text-center">
       <div className="flex flex-col items-center gap-4">
-        {/* Reads as "Four seats, never six." — decorative pieces are hidden from AT */}
+        {/* Static name for assistive tech; the visual headline (with the
+            rotating pill) is hidden from it so it isn't re-announced. */}
         <h1
           id="hero-title"
-          className="flex flex-col items-center gap-2 text-[2.75rem] leading-tight tracking-tighter sm:text-6xl lg:text-8xl"
+          className="text-[2.75rem] leading-tight tracking-tighter sm:text-6xl lg:text-8xl"
         >
-          <span className="flex items-center gap-4 lg:gap-6">
-            Four
-            <MarkTile />
-            <em className="italic">seats</em>
-            <span className="sr-only">,</span>
-            <ArrowLeft aria-hidden="true" strokeWidth={1.5} className="h-[0.7em] w-[0.7em] shrink-0" />
-          </span>
-          <span className="flex items-center gap-4 lg:gap-6">
-            never
-            <span aria-hidden="true" className="text-[0.75em] leading-none">
-              🚗
+          <span className="sr-only">Four seats, never six. On time, prepaid, AC on, ₦1,400.</span>
+          <span aria-hidden="true" className="flex flex-col items-center gap-2">
+            <span className="flex items-center gap-4 lg:gap-6">
+              Four
+              <MarkTile />
+              <em className="italic">seats</em>
+              <ArrowLeft strokeWidth={1.5} className="h-[0.7em] w-[0.7em] shrink-0" />
             </span>
-            <span className="flex items-center gap-2">
-              <span className="rounded-full border-2 border-ink px-4 lg:border-4 lg:px-6">six</span>
-              <span>.</span>
+            <span className="flex items-center gap-4 lg:gap-6">
+              <span className="text-[0.75em] leading-none">🚗</span>
+              <span className="flex items-center gap-2">
+                <span className="rounded-full border-2 border-ink px-4 lg:border-4 lg:px-6">
+                  <RotatingWords words={ROTATING_WORDS} />
+                </span>
+                <span>.</span>
+              </span>
             </span>
           </span>
         </h1>
@@ -83,7 +89,7 @@ export default function HeroSection({ avatarList }: { avatarList: AvatarList[] }
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <a
             href={WHATSAPP_GROUP_INVITE_LINK}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 font-heading font-semibold text-white transition-colors hover:bg-ink/90"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink px-8 font-heading font-semibold text-white transition-colors hover:bg-slate"
           >
             Join the WhatsApp group
             <MoveRight className="h-4 w-4 shrink-0" aria-hidden="true" />

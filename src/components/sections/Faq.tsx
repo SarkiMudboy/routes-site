@@ -6,10 +6,10 @@ function Item({ q, children }: { q: string; children: React.ReactNode }) {
     <details className="group border-b border-rule">
       <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-4 font-heading text-lg font-semibold text-ink [&::-webkit-details-marker]:hidden">
         {q}
-        <span aria-hidden="true" className="text-2xl leading-none text-teal group-open:hidden">
+        <span aria-hidden="true" className="text-2xl leading-none text-slate group-open:hidden">
           +
         </span>
-        <span aria-hidden="true" className="hidden text-2xl leading-none text-teal group-open:inline">
+        <span aria-hidden="true" className="hidden text-2xl leading-none text-slate group-open:inline">
           –
         </span>
       </summary>
@@ -40,7 +40,7 @@ export function Faq() {
         </Item>
         <Item q="I drive this route. Can I join?">
           We onboard a small number of vetted drivers. Call{" "}
-          <a href={driverTel} className="font-semibold text-teal underline underline-offset-4">
+          <a href={driverTel} className="font-semibold text-slate underline underline-offset-4">
             {DRIVER_PHONE_NUMBER}
           </a>{" "}
           — driver places are not through the passenger group.

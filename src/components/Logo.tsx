@@ -8,7 +8,7 @@ const WORDMARK_PATH =
 
 export function Logo({ className = "h-6 w-auto text-black" }: { className?: string }) {
   return (
-    <svg viewBox="3.5 3.762 199.28 36.738" className={className} role="img" aria-label="routes">
+    <svg viewBox="2.5 2.762 201.28 38.738" className={className} role="img" aria-label="routes">
       <path d="M9 35H24V13H39" fill="none" stroke="currentColor" strokeWidth="6" strokeLinejoin="miter" />
       <g fill="currentColor">
         <rect x="3.5" y="29.5" width="11" height="11" />

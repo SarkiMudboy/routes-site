@@ -11,123 +11,798 @@ Determine the default path for components and styles.
 If default path for components is not /components/ui, provide instructions on why it's important to create this folder
 Copy-paste this component to /components/ui folder:
 ```tsx
-hero-01.tsx
-import HeroSection from "@/components/ui/hero-01-utils/hero";
-import type { NavigationSection } from "@/components/ui/hero-01-utils/header";
-import Header from "@/components/ui/hero-01-utils/header";
-import BrandSlider, {
-  BrandList,
-} from "@/components/ui/hero-01-utils/brand-slider";
-import type { AvatarList } from "@/components/ui/hero-01-utils/hero";
+p-table-4.tsx
+"use client";
 
-export default function AgencyHeroSection() {
-  const avatarList: AvatarList[] = [
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/59a2b5a0dfc1531e2d1ea42d71ae8615f37582e1f8a17e4a1b1aff9afc7ef878.jpg",
-    },
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/c7097eeb66ad097b6e5f9dbb95ae857cd6b55c0ad398c1ea84f3ab90a02c631e.jpg",
-    },
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/c70d48e47d3a2d79ad07d16bff3aa3cff686580be031b6102cad73a15b47d8fd.jpg",
-    },
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/51c9ed392f6e7fce7fd85a78648e3e06bfdcd91999ab5fa48485888231589abf.jpg",
-    },
-  ];
+import {
+  type ColumnDef,
+  columnSizingFeature,
+  columnVisibilityFeature,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  flexRender,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  sortFn_alphanumeric,
+  sortFn_text,
+  tableFeatures,
+  useTable,
+} from "@tanstack/react-table";
+import { ChevronDownIcon, ChevronUpIcon, PlaneTakeoffIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/p-table-4-utils/badge";
+import { Button } from "@/components/ui/p-table-4-utils/button";
+import { Checkbox } from "@/components/ui/p-table-4-utils/checkbox";
+import { Frame, FrameFooter } from "@/components/ui/p-table-4-utils/frame";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/p-table-4-utils/pagination";
+import {
+  Select,
+  SelectItem,
+  SelectPopup,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/p-table-4-utils/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/p-table-4-utils/table";
 
-  const navigationData: NavigationSection[] = [
-    {
-      title: "Home",
-      href: "#",
-      isActive: true,
-    },
-    {
-      title: "About us",
-      href: "#",
-    },
-    {
-      title: "Services",
-      href: "#",
-    },
-    {
-      title: "Team",
-      href: "#",
-    },
-    {
-      title: "Pricing",
-      href: "#",
-    },
-    {
-      title: "Awards",
-      href: "#",
-    },
-  ];
+type Flight = {
+  id: string;
+  flightCode: string;
+  destination: string;
+  departureTime: string;
+  arrivalTime: string;
+  terminal: string;
+  duration: string;
+  status: "On Time" | "Delayed" | "Cancelled" | "Boarding";
+  gate: string;
+};
 
-  const brandList: BrandList[] = [
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/d824c259df6b2b2962fbef96e68a6877cab689b19246e3dc34ac9e7b144d32bd.svg",
-      lightimg:
-        "https://cdn.21st.dev/assets/localized/15cd724e2a038ed1415820ee25349eac7dfadec7f9359ae3800c13856ecb8b13.svg",
-      name: "Brand 1",
+const getStatusColor = (status: Flight["status"]) => {
+  switch (status) {
+    case "On Time":
+      return "bg-emerald-500";
+    case "Delayed":
+      return "bg-amber-500";
+    case "Cancelled":
+      return "bg-red-500";
+    case "Boarding":
+      return "bg-blue-500";
+    default:
+      return "bg-muted-foreground/64";
+  }
+};
+
+const features = tableFeatures({
+  columnSizingFeature,
+  columnVisibilityFeature,
+  rowPaginationFeature,
+  paginatedRowModel: createPaginatedRowModel(),
+  rowSelectionFeature,
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+  sortFns: {
+    alphanumeric: sortFn_alphanumeric,
+    text: sortFn_text,
+  },
+});
+
+const columns: ColumnDef<typeof features, Flight>[] = [
+  {
+    cell: ({ row }) => (
+      <Checkbox
+        aria-label="Select row"
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+      />
+    ),
+    enableSorting: false,
+    header: ({ table }) => {
+      const isAllSelected = table.getIsAllPageRowsSelected();
+      const isSomeSelected = table.getIsSomePageRowsSelected();
+      return (
+        <Checkbox
+          aria-label="Select all rows"
+          checked={isAllSelected}
+          indeterminate={isSomeSelected && !isAllSelected}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        />
+      );
     },
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/266083df0c7d0633f145889af4700d18e62b8f2c068fd8ab73d5a94b87a5a5cb.svg",
-      lightimg:
-        "https://cdn.21st.dev/assets/localized/ae83ac635485a392bac5c1723e98d6820d3587f762fdbde63cd462d7edea7c0d.svg",
-      name: "Brand 2",
+    id: "select",
+    size: 28,
+  },
+  {
+    accessorKey: "flightCode",
+    cell: ({ row }) => (
+      <div className="font-medium font-mono text-muted-foreground">
+        {row.getValue("flightCode")}
+      </div>
+    ),
+    header: "Flight",
+    size: 80,
+  },
+  {
+    accessorKey: "departureTime",
+    cell: ({ row }) => {
+      const isCancelled = row.original.status === "Cancelled";
+      const isDelayed = row.original.status === "Delayed";
+      return (
+        <div
+          className={cn(
+            "flex items-center gap-1.5 font-normal tabular-nums",
+            isCancelled && "text-muted-foreground line-through opacity-50",
+          )}
+        >
+          <div className={isDelayed ? "text-warning-foreground" : undefined}>
+            {row.original.departureTime}
+          </div>
+          <div
+            aria-hidden="true"
+            className="flex items-center gap-0.5 opacity-50 before:size-1.5 before:rounded-full before:border before:border-muted-foreground after:h-px after:w-3 after:border-muted-foreground after:border-t after:border-dashed"
+          />
+          <div
+            className={cn(
+              "text-muted-foreground",
+              isCancelled && "line-through",
+            )}
+          >
+            {row.original.duration}
+          </div>
+          <div
+            aria-hidden="true"
+            className="flex items-center gap-0.5 opacity-50 before:order-1 before:size-1.5 before:rounded-full before:border before:border-muted-foreground after:h-px after:w-3 after:border-muted-foreground after:border-t after:border-dashed"
+          />
+          <div>{row.original.arrivalTime}</div>
+        </div>
+      );
     },
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/91d1c562d12ba69aa7525d3782c6c6223b90e302073d59769dfce665ab9a83b7.svg",
-      lightimg:
-        "https://cdn.21st.dev/assets/localized/23d52f6aa5bbc765b65d5253b6578ed0e9213956a21be149f679cc79e2b0259e.svg",
-      name: "Brand 3",
+    header: "Time",
+    size: 220,
+  },
+  {
+    accessorKey: "destination",
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("destination")}</div>
+    ),
+    header: "Destination",
+    size: 180,
+  },
+  {
+    accessorKey: "status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as Flight["status"];
+      return (
+        <Badge variant="outline">
+          <span
+            aria-hidden="true"
+            className={cn("size-1.5 rounded-full", getStatusColor(status))}
+          />
+          {status}
+        </Badge>
+      );
     },
+    header: "Status",
+    size: 120,
+  },
+  {
+    accessorKey: "terminal",
+    cell: ({ row }) => (
+      <Badge className="font-normal tabular-nums" size="lg" variant="outline">
+        <PlaneTakeoffIcon />
+        <span>{row.getValue("terminal")}</span>
+      </Badge>
+    ),
+    header: "Terminal",
+    size: 90,
+  },
+  {
+    accessorKey: "gate",
+    header: "Gate",
+    size: 80,
+  },
+];
+
+export default function Particle() {
+  const pageSize = 10;
+
+  const table = useTable(
     {
-      image:
-        "https://cdn.21st.dev/assets/localized/f50b06ae2b7bf86d199b0ac986a47442f4a198d2f6dd81a9fe83c43022608498.svg",
-      lightimg:
-        "https://cdn.21st.dev/assets/localized/4cd93b1d1133feffdf8eba4431f93c14b538120c74285f39fe7ad1c6e48f7b53.svg",
-      name: "Brand 4",
+      columns,
+      data: flights,
+      enableSortingRemoval: false,
+      features,
+      initialState: {
+        pagination: {
+          pageIndex: 0,
+          pageSize,
+        },
+        sorting: [
+          {
+            desc: false,
+            id: "departureTime",
+          },
+        ],
+      },
     },
-    {
-      image:
-        "https://cdn.21st.dev/assets/localized/3ad67ddda671655df765a507c9bcc7b67e4138a1ffe903ace17cef99c5c972a3.svg",
-      lightimg:
-        "https://cdn.21st.dev/assets/localized/6ee9f831a7c1cb87c14308a9d687fbd5fb2f319abee03d306b78730421410354.svg",
-      name: "Brand 5",
-    },
-  ];
+    (state) => ({
+      pagination: state.pagination,
+      rowSelection: state.rowSelection,
+      sorting: state.sorting,
+    }),
+  );
 
   return (
-    <div className="relative">
-      <Header navigationData={navigationData} />
-      <main>
-        <HeroSection avatarList={avatarList} />
-        <BrandSlider brandList={brandList} />
-      </main>
-    </div>
+    <Frame className="w-full">
+      <Table variant="card" className="table-fixed">
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow className="hover:bg-transparent" key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                const columnSize = header.column.getSize();
+                return (
+                  <TableHead
+                    key={header.id}
+                    style={
+                      columnSize ? { width: `${columnSize}px` } : undefined
+                    }
+                  >
+                    {header.isPlaceholder ? null : header.column.getCanSort() ? (
+                      <div
+                        className="flex h-full cursor-pointer select-none items-center justify-between gap-2"
+                        onClick={header.column.getToggleSortingHandler()}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            header.column.getToggleSortingHandler()?.(e);
+                          }
+                        }}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                        {{
+                          asc: (
+                            <ChevronUpIcon
+                              aria-hidden="true"
+                              className="size-4 shrink-0 opacity-80"
+                            />
+                          ),
+                          desc: (
+                            <ChevronDownIcon
+                              aria-hidden="true"
+                              className="size-4 shrink-0 opacity-80"
+                            />
+                          ),
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    ) : (
+                      flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )
+                    )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                data-state={row.getIsSelected() ? "selected" : undefined}
+                key={row.id}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell className="h-24 text-center" colSpan={columns.length}>
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <FrameFooter className="p-2">
+        <div className="flex items-center justify-between gap-2">
+          {/* Results range selector */}
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <p className="text-muted-foreground text-sm">Viewing</p>
+            <Select
+              items={Array.from({ length: table.getPageCount() }, (_, i) => {
+                const start = i * table.state.pagination.pageSize + 1;
+                const end = Math.min(
+                  (i + 1) * table.state.pagination.pageSize,
+                  table.getRowCount(),
+                );
+                const pageNum = i + 1;
+                return { label: `${start}-${end}`, value: pageNum };
+              })}
+              onValueChange={(value) => {
+                table.setPageIndex((value as number) - 1);
+              }}
+              value={table.state.pagination.pageIndex + 1}
+            >
+              <SelectTrigger
+                aria-label="Select result range"
+                className="w-fit min-w-none"
+                size="sm"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectPopup>
+                {Array.from({ length: table.getPageCount() }, (_, i) => {
+                  const start = i * table.state.pagination.pageSize + 1;
+                  const end = Math.min(
+                    (i + 1) * table.state.pagination.pageSize,
+                    table.getRowCount(),
+                  );
+                  const pageNum = i + 1;
+                  return (
+                    <SelectItem key={pageNum} value={pageNum}>
+                      {`${start}-${end}`}
+                    </SelectItem>
+                  );
+                })}
+              </SelectPopup>
+            </Select>
+            <p className="text-muted-foreground text-sm">
+              of{" "}
+              <strong className="font-medium text-foreground">
+                {table.getRowCount()}
+              </strong>{" "}
+              results
+            </p>
+          </div>
+
+          {/* Pagination */}
+          <Pagination className="justify-end">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className="sm:*:[svg]:hidden"
+                  render={
+                    <Button
+                      disabled={!table.getCanPreviousPage()}
+                      onClick={() => table.previousPage()}
+                      size="sm"
+                      variant="outline"
+                    />
+                  }
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  className="sm:*:[svg]:hidden"
+                  render={
+                    <Button
+                      disabled={!table.getCanNextPage()}
+                      onClick={() => table.nextPage()}
+                      size="sm"
+                      variant="outline"
+                    />
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      </FrameFooter>
+    </Frame>
   );
 }
 
+const flights: Flight[] = [
+  {
+    arrivalTime: "11:45",
+    departureTime: "08:30",
+    destination: "Los Angeles",
+    duration: "5h 15m",
+    flightCode: "AA1234",
+    gate: "A12",
+    id: "1",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "17:10",
+    departureTime: "14:20",
+    destination: "San Francisco",
+    duration: "4h 50m",
+    flightCode: "DL5678",
+    gate: "B24",
+    id: "2",
+    status: "Delayed",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "13:30",
+    departureTime: "10:15",
+    destination: "Miami",
+    duration: "3h 15m",
+    flightCode: "UA9012",
+    gate: "C8",
+    id: "3",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "18:20",
+    departureTime: "16:45",
+    destination: "Seattle",
+    duration: "2h 35m",
+    flightCode: "SW3456",
+    gate: "D15",
+    id: "4",
+    status: "On Time",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "12:30",
+    departureTime: "09:00",
+    destination: "Salt Lake City",
+    duration: "5h 30m",
+    flightCode: "JB7890",
+    gate: "E3",
+    id: "5",
+    status: "Cancelled",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "14:15",
+    departureTime: "11:30",
+    destination: "Phoenix",
+    duration: "2h 45m",
+    flightCode: "AS2345",
+    gate: "F7",
+    id: "6",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "20:30",
+    departureTime: "13:00",
+    destination: "Las Vegas",
+    duration: "5h 30m",
+    flightCode: "HA6789",
+    gate: "G12",
+    id: "7",
+    status: "Delayed",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "09:00",
+    departureTime: "07:15",
+    destination: "Dallas",
+    duration: "1h 45m",
+    flightCode: "FX0123",
+    gate: "H5",
+    id: "8",
+    status: "Boarding",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "08:30",
+    departureTime: "06:00",
+    destination: "Denver",
+    duration: "2h 30m",
+    flightCode: "WN4567",
+    gate: "I9",
+    id: "9",
+    status: "Boarding",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "15:20",
+    departureTime: "12:45",
+    destination: "Portland",
+    duration: "2h 35m",
+    flightCode: "B61234",
+    gate: "J14",
+    id: "10",
+    status: "On Time",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "18:45",
+    departureTime: "15:30",
+    destination: "Atlanta",
+    duration: "3h 15m",
+    flightCode: "NK8901",
+    gate: "K6",
+    id: "11",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "12:00",
+    departureTime: "09:45",
+    destination: "Chicago",
+    duration: "2h 15m",
+    flightCode: "F92345",
+    gate: "L11",
+    id: "12",
+    status: "Delayed",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "14:15",
+    departureTime: "11:00",
+    destination: "Boston",
+    duration: "3h 15m",
+    flightCode: "SY6789",
+    gate: "M3",
+    id: "13",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "16:45",
+    departureTime: "13:30",
+    destination: "New York",
+    duration: "3h 15m",
+    flightCode: "G40123",
+    gate: "N8",
+    id: "14",
+    status: "On Time",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "11:20",
+    departureTime: "08:00",
+    destination: "Washington",
+    duration: "3h 20m",
+    flightCode: "YX5678",
+    gate: "O12",
+    id: "15",
+    status: "Delayed",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "13:50",
+    departureTime: "10:30",
+    destination: "Orlando",
+    duration: "3h 20m",
+    flightCode: "4U9012",
+    gate: "P5",
+    id: "16",
+    status: "Delayed",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "16:30",
+    departureTime: "14:00",
+    destination: "Houston",
+    duration: "2h 30m",
+    flightCode: "QF3456",
+    gate: "Q9",
+    id: "17",
+    status: "On Time",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "10:00",
+    departureTime: "07:30",
+    destination: "Minneapolis",
+    duration: "2h 30m",
+    flightCode: "LH7890",
+    gate: "R7",
+    id: "18",
+    status: "Cancelled",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "19:30",
+    departureTime: "16:15",
+    destination: "Detroit",
+    duration: "3h 15m",
+    flightCode: "KL2345",
+    gate: "S4",
+    id: "19",
+    status: "Cancelled",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "15:10",
+    departureTime: "12:00",
+    destination: "Philadelphia",
+    duration: "3h 10m",
+    flightCode: "AF6789",
+    gate: "T16",
+    id: "20",
+    status: "On Time",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "12:25",
+    departureTime: "09:15",
+    destination: "Charlotte",
+    duration: "3h 10m",
+    flightCode: "BA0123",
+    gate: "U10",
+    id: "21",
+    status: "On Time",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "18:00",
+    departureTime: "15:45",
+    destination: "Nashville",
+    duration: "2h 15m",
+    flightCode: "IB4567",
+    gate: "V8",
+    id: "22",
+    status: "Delayed",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "14:00",
+    departureTime: "11:45",
+    destination: "Austin",
+    duration: "2h 15m",
+    flightCode: "EK8901",
+    gate: "W13",
+    id: "23",
+    status: "Cancelled",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "16:40",
+    departureTime: "13:15",
+    destination: "Tampa",
+    duration: "3h 25m",
+    flightCode: "QR2345",
+    gate: "X6",
+    id: "24",
+    status: "On Time",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "11:30",
+    departureTime: "08:45",
+    destination: "Raleigh",
+    duration: "2h 45m",
+    flightCode: "TK6789",
+    gate: "Y11",
+    id: "25",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "12:45",
+    departureTime: "10:00",
+    destination: "Indianapolis",
+    duration: "2h 45m",
+    flightCode: "VS3456",
+    gate: "Z4",
+    id: "26",
+    status: "On Time",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "20:00",
+    departureTime: "17:30",
+    destination: "Kansas City",
+    duration: "2h 30m",
+    flightCode: "LX7890",
+    gate: "A8",
+    id: "27",
+    status: "Delayed",
+    terminal: "3",
+  },
+  {
+    arrivalTime: "15:20",
+    departureTime: "12:30",
+    destination: "Columbus",
+    duration: "2h 50m",
+    flightCode: "OS1234",
+    gate: "B19",
+    id: "28",
+    status: "On Time",
+    terminal: "1",
+  },
+  {
+    arrivalTime: "20:15",
+    departureTime: "18:00",
+    destination: "Milwaukee",
+    duration: "2h 15m",
+    flightCode: "SN5678",
+    gate: "C22",
+    id: "29",
+    status: "On Time",
+    terminal: "2",
+  },
+  {
+    arrivalTime: "21:30",
+    departureTime: "19:15",
+    destination: "Memphis",
+    duration: "2h 15m",
+    flightCode: "TP9012",
+    gate: "D6",
+    id: "30",
+    status: "On Time",
+    terminal: "3",
+  },
+];
+
 
 demo.tsx
-import HeroOne from "@/components/ui/hero-01";
+import FlightDataTable from "@/components/ui/p-table-4";
 
-export default function HeroOneDemo() {
-  return <HeroOne />;
+export default function Demo() {
+  return (
+    <div className="w-full max-w-4xl p-4">
+      <FlightDataTable />
+    </div>
+  );
 }
 
 ```
 
 Copy-paste these files for dependencies:
+```tsx
+shadcn/badge
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+)
+
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {}
+
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return (
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+  )
+}
+
+export { Badge, badgeVariants }
+
+```
 ```tsx
 shadcn/button
 import * as React from "react"
@@ -189,342 +864,494 @@ export { Button, buttonVariants }
 
 ```
 ```tsx
-shadcn/sheet
+shadcn/checkbox
 "use client"
 
 import * as React from "react"
-import * as SheetPrimitive from "@radix-ui/react-dialog"
-import { cva, type VariantProps } from "class-variance-authority"
-import { X } from "lucide-react"
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
+import { Check } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Sheet = SheetPrimitive.Root
-
-const SheetTrigger = SheetPrimitive.Trigger
-
-const SheetClose = SheetPrimitive.Close
-
-const SheetPortal = SheetPrimitive.Portal
-
-const SheetOverlay = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
+const Checkbox = React.forwardRef<
+  React.ElementRef<typeof CheckboxPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <SheetPrimitive.Overlay
+  <CheckboxPrimitive.Root
+    ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
       className,
     )}
     {...props}
-    ref={ref}
-  />
+  >
+    <CheckboxPrimitive.Indicator
+      className={cn("flex items-center justify-center text-current")}
+    >
+      <Check className="h-4 w-4" />
+    </CheckboxPrimitive.Indicator>
+  </CheckboxPrimitive.Root>
 ))
-SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
+Checkbox.displayName = CheckboxPrimitive.Root.displayName
 
-const sheetVariants = cva(
-  "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
-  {
-    variants: {
-      side: {
-        top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
-        bottom:
-          "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-        left: "inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
-        right:
-          "inset-y-0 right-0 h-full w-3/4  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
-      },
-    },
-    defaultVariants: {
-      side: "right",
-    },
-  },
-)
+export { Checkbox }
 
-interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+```
+```tsx
+shadcn/pagination
+import * as React from "react"
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  MoreHorizontalIcon,
+} from "lucide-react"
 
-const SheetContent = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Content>,
-  SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
-  <SheetPortal>
-    <SheetOverlay />
-    <SheetPrimitive.Content
-      ref={ref}
-      className={cn(sheetVariants({ side }), className)}
+import { cn } from "@/lib/utils"
+import { Button, buttonVariants } from "@/components/ui/button"
+
+function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  return (
+    <nav
+      role="navigation"
+      aria-label="pagination"
+      data-slot="pagination"
+      className={cn("mx-auto flex w-full justify-center", className)}
+      {...props}
+    />
+  )
+}
+
+function PaginationContent({
+  className,
+  ...props
+}: React.ComponentProps<"ul">) {
+  return (
+    <ul
+      data-slot="pagination-content"
+      className={cn("flex flex-row items-center gap-1", className)}
+      {...props}
+    />
+  )
+}
+
+function PaginationItem({ ...props }: React.ComponentProps<"li">) {
+  return <li data-slot="pagination-item" {...props} />
+}
+
+type PaginationLinkProps = {
+  isActive?: boolean
+} & Pick<React.ComponentProps<typeof Button>, "size"> &
+  React.ComponentProps<"a">
+
+function PaginationLink({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationLinkProps) {
+  return (
+    <a
+      aria-current={isActive ? "page" : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      className={cn(
+        buttonVariants({
+          variant: isActive ? "outline" : "ghost",
+          size,
+        }),
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function PaginationPrevious({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink
+      aria-label="Go to previous page"
+      size="default"
+      className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
-      {children}
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-        <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </SheetPrimitive.Close>
-    </SheetPrimitive.Content>
-  </SheetPortal>
-))
-SheetContent.displayName = SheetPrimitive.Content.displayName
+      <ChevronLeftIcon />
+      <span className="hidden sm:block">Previous</span>
+    </PaginationLink>
+  )
+}
 
-const SheetHeader = ({
+function PaginationNext({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col space-y-2 text-center sm:text-left",
-      className,
-    )}
-    {...props}
-  />
-)
-SheetHeader.displayName = "SheetHeader"
+}: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink
+      aria-label="Go to next page"
+      size="default"
+      className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
+      {...props}
+    >
+      <span className="hidden sm:block">Next</span>
+      <ChevronRightIcon />
+    </PaginationLink>
+  )
+}
 
-const SheetFooter = ({
+function PaginationEllipsis({
   className,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className,
-    )}
-    {...props}
-  />
-)
-SheetFooter.displayName = "SheetFooter"
-
-const SheetTitle = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <SheetPrimitive.Title
-    ref={ref}
-    className={cn("text-lg font-semibold text-foreground", className)}
-    {...props}
-  />
-))
-SheetTitle.displayName = SheetPrimitive.Title.displayName
-
-const SheetDescription = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <SheetPrimitive.Description
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-SheetDescription.displayName = SheetPrimitive.Description.displayName
+}: React.ComponentProps<"span">) {
+  return (
+    <span
+      aria-hidden
+      data-slot="pagination-ellipsis"
+      className={cn("flex size-9 items-center justify-center", className)}
+      {...props}
+    >
+      <MoreHorizontalIcon className="size-4" />
+      <span className="sr-only">More pages</span>
+    </span>
+  )
+}
 
 export {
-  Sheet,
-  SheetPortal,
-  SheetOverlay,
-  SheetTrigger,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
+  Pagination,
+  PaginationContent,
+  PaginationLink,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
 }
 
 ```
 ```tsx
-shadcn/input
-import * as React from "react"
-
-import { cn } from "@/lib/utils"
-
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Input.displayName = "Input"
-
-export { Input }
-
-```
-```tsx
-shadcn/label
+shadcn/select
 "use client"
 
 import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-)
+const Select = SelectPrimitive.Root
 
-const Label = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
-    VariantProps<typeof labelVariants>
->(({ className, ...props }, ref) => (
-  <LabelPrimitive.Root
-    ref={ref}
-    className={cn(labelVariants(), className)}
-    {...props}
-  />
-))
-Label.displayName = LabelPrimitive.Root.displayName
+const SelectGroup = SelectPrimitive.Group
 
-export { Label }
+const SelectValue = SelectPrimitive.Value
 
-```
-```tsx
-shadcn/navigation-menu
-import * as React from "react"
-import { ChevronDownIcon } from "@radix-ui/react-icons"
-import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
-import { cva } from "class-variance-authority"
-
-import { cn } from "@/lib/utils"
-
-const NavigationMenu = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
+const SelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
-  <NavigationMenuPrimitive.Root
+  <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "relative z-10 flex max-w-max flex-1 items-center justify-center",
-      className
+      "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      className,
     )}
     {...props}
   >
     {children}
-    <NavigationMenuViewport />
-  </NavigationMenuPrimitive.Root>
+    <SelectPrimitive.Icon asChild>
+      <ChevronDown className="h-4 w-4 opacity-50" />
+    </SelectPrimitive.Icon>
+  </SelectPrimitive.Trigger>
 ))
-NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
-const NavigationMenuList = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
+const SelectScrollUpButton = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
 >(({ className, ...props }, ref) => (
-  <NavigationMenuPrimitive.List
+  <SelectPrimitive.ScrollUpButton
     ref={ref}
     className={cn(
-      "group flex flex-1 list-none items-center justify-center space-x-1",
-      className
+      "flex cursor-default items-center justify-center py-1",
+      className,
     )}
-    {...props}
-  />
-))
-NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName
-
-const NavigationMenuItem = NavigationMenuPrimitive.Item
-
-const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-)
-
-const NavigationMenuTrigger = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <NavigationMenuPrimitive.Trigger
-    ref={ref}
-    className={cn(navigationMenuTriggerStyle(), "group", className)}
     {...props}
   >
-    {children}{" "}
-    <ChevronDownIcon
-      className="relative top-[1px] ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180"
-      aria-hidden="true"
-    />
-  </NavigationMenuPrimitive.Trigger>
+    <ChevronUp className="h-4 w-4" />
+  </SelectPrimitive.ScrollUpButton>
 ))
-NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName
 
-const NavigationMenuContent = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>
+const SelectScrollDownButton = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
 >(({ className, ...props }, ref) => (
-  <NavigationMenuPrimitive.Content
+  <SelectPrimitive.ScrollDownButton
     ref={ref}
     className={cn(
-      "left-0 top-0 w-full data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 md:absolute md:w-auto ",
-      className
+      "flex cursor-default items-center justify-center py-1",
+      className,
     )}
+    {...props}
+  >
+    <ChevronDown className="h-4 w-4" />
+  </SelectPrimitive.ScrollDownButton>
+))
+SelectScrollDownButton.displayName =
+  SelectPrimitive.ScrollDownButton.displayName
+
+const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+>(({ className, children, position = "popper", ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <SelectPrimitive.Content
+      ref={ref}
+      className={cn(
+        "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        position === "popper" &&
+          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+        className,
+      )}
+      position={position}
+      {...props}
+    >
+      <SelectScrollUpButton />
+      <SelectPrimitive.Viewport
+        className={cn(
+          "p-1",
+          position === "popper" &&
+            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
+        )}
+      >
+        {children}
+      </SelectPrimitive.Viewport>
+      <SelectScrollDownButton />
+    </SelectPrimitive.Content>
+  </SelectPrimitive.Portal>
+))
+SelectContent.displayName = SelectPrimitive.Content.displayName
+
+const SelectLabel = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Label
+    ref={ref}
+    className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
     {...props}
   />
 ))
-NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName
+SelectLabel.displayName = SelectPrimitive.Label.displayName
 
-const NavigationMenuLink = NavigationMenuPrimitive.Link
+const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <SelectPrimitive.ItemIndicator>
+        <Check className="h-4 w-4" />
+      </SelectPrimitive.ItemIndicator>
+    </span>
 
-const NavigationMenuViewport = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+  </SelectPrimitive.Item>
+))
+SelectItem.displayName = SelectPrimitive.Item.displayName
+
+const SelectSeparator = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <div className={cn("absolute left-0 top-full flex justify-center")}>
-    <NavigationMenuPrimitive.Viewport
-      className={cn(
-        "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]",
-        className
-      )}
+  <SelectPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    {...props}
+  />
+))
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName
+
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+}
+
+```
+```tsx
+shadcn/table
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Table = React.forwardRef<
+  HTMLTableElement,
+  React.HTMLAttributes<HTMLTableElement>
+>(({ className, ...props }, ref) => (
+  <div className="relative w-full overflow-auto">
+    <table
       ref={ref}
+      className={cn("w-full caption-bottom text-sm", className)}
       {...props}
     />
   </div>
 ))
-NavigationMenuViewport.displayName =
-  NavigationMenuPrimitive.Viewport.displayName
+Table.displayName = "Table"
 
-const NavigationMenuIndicator = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>
+const TableHeader = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <NavigationMenuPrimitive.Indicator
+  <thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
+))
+TableHeader.displayName = "TableHeader"
+
+const TableBody = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tbody
+    ref={ref}
+    className={cn("[&_tr:last-child]:border-0", className)}
+    {...props}
+  />
+))
+TableBody.displayName = "TableBody"
+
+const TableFooter = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tfoot
     ref={ref}
     className={cn(
-      "top-full z-[1] flex h-1.5 items-end justify-center overflow-hidden data-[state=visible]:animate-in data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:fade-in",
-      className
+      "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+      className,
     )}
     {...props}
-  >
-    <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
-  </NavigationMenuPrimitive.Indicator>
+  />
 ))
-NavigationMenuIndicator.displayName =
-  NavigationMenuPrimitive.Indicator.displayName
+TableFooter.displayName = "TableFooter"
+
+const TableRow = React.forwardRef<
+  HTMLTableRowElement,
+  React.HTMLAttributes<HTMLTableRowElement>
+>(({ className, ...props }, ref) => (
+  <tr
+    ref={ref}
+    className={cn(
+      "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+      className,
+    )}
+    {...props}
+  />
+))
+TableRow.displayName = "TableRow"
+
+const TableHead = React.forwardRef<
+  HTMLTableCellElement,
+  React.ThHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <th
+    ref={ref}
+    className={cn(
+      "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+      className,
+    )}
+    {...props}
+  />
+))
+TableHead.displayName = "TableHead"
+
+const TableCell = React.forwardRef<
+  HTMLTableCellElement,
+  React.TdHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <td
+    ref={ref}
+    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    {...props}
+  />
+))
+TableCell.displayName = "TableCell"
+
+const TableCaption = React.forwardRef<
+  HTMLTableCaptionElement,
+  React.HTMLAttributes<HTMLTableCaptionElement>
+>(({ className, ...props }, ref) => (
+  <caption
+    ref={ref}
+    className={cn("mt-4 text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+TableCaption.displayName = "TableCaption"
 
 export {
-  navigationMenuTriggerStyle,
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuContent,
-  NavigationMenuTrigger,
-  NavigationMenuLink,
-  NavigationMenuIndicator,
-  NavigationMenuViewport,
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
 }
 
 ```
 
 Install NPM dependencies:
 ```bash
-@radix-ui/react-slot, class-variance-authority, lucide-react, @radix-ui/react-dialog, @radix-ui/react-label, @radix-ui/react-icons, @radix-ui/react-navigation-menu
+lucide-react, @tanstack/react-table, class-variance-authority, @radix-ui/react-slot, @radix-ui/react-checkbox, @radix-ui/react-select
+```
+
+Extend existing Tailwind 4 index.css with this code (or if project uses Tailwind 3, extend tailwind.config.js or globals.css):
+```css
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+}
+
+:root {
+  --destructive-foreground: var(--color-red-700);
+  --info: var(--color-blue-500);
+  --info-foreground: var(--color-blue-700);
+  --success: var(--color-emerald-500);
+  --success-foreground: var(--color-emerald-700);
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-amber-700);
+}
+
+.dark {
+  --destructive-foreground: var(--color-red-400);
+  --info: var(--color-blue-500);
+  --info-foreground: var(--color-blue-400);
+  --success: var(--color-emerald-500);
+  --success-foreground: var(--color-emerald-400);
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-amber-400);
+}
+
 ```

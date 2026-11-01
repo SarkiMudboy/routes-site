@@ -9,6 +9,9 @@ export const DRIVER_PHONE_NUMBER =
   import.meta.env.VITE_DRIVER_PHONE_NUMBER ?? "{{DRIVER_PHONE_NUMBER}}";
 export const SUPPORT_PHONE_NUMBER =
   import.meta.env.VITE_SUPPORT_PHONE_NUMBER ?? "{{SUPPORT_PHONE_NUMBER}}";
+// `||` (not `??`): an empty `VITE_CAC_RC_NUMBER=` line also shows the placeholder.
+export const CAC_RC_NUMBER =
+  import.meta.env.VITE_CAC_RC_NUMBER?.trim() || "{{CAC_RC_NUMBER}}";
 
 export const driverTel = `tel:${DRIVER_PHONE_NUMBER}`;
 export const supportWa = `https://wa.me/${SUPPORT_PHONE_NUMBER}`;

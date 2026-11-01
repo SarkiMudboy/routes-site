@@ -41,8 +41,7 @@
   a:focus-visible,
   button:focus-visible,
   summary:focus-visible {
-    outline: 3px solid #d2622a;
+    outline: 3px solid #36415a; /* slate */
     outline-offset: 2px;
     border-radius: 4px;
-  }
-}
+  }}
